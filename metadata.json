@@ -1,0 +1,7 @@
+{
+  "name": "Brave-inspired Browser Home",
+  "description": "A high-performance, private browser home page inspired by Brave, featuring quick search and top sites.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

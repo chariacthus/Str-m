@@ -5,7 +5,9 @@ export interface TopSite {
   icon?: string;
 }
 
-export enum AppView {
-  HOME = 'HOME',
-  SEARCH = 'SEARCH'
-}
+export const AppView = {
+  HOME: 'HOME',
+  SEARCH: 'SEARCH'
+} as const;
+
+export type AppViewType = typeof AppView[keyof typeof AppView];

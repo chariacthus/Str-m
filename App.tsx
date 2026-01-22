@@ -1,29 +1,32 @@
-
 import React, { useState, useEffect } from 'react';
-import { AppView } from './types';
-import { BraveLogo, GearIcon, SearchIcon } from './components/Icons';
+import { AppView, AppViewType } from './types';
+import { BraveLogo, GearIcon } from './components/Icons';
 import SearchBar from './components/SearchBar';
 import Footer from './components/Footer';
 import PromotionalCard from './components/PromotionalCard';
 import TopSites from './components/TopSites';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<AppView>(AppView.HOME);
+  const [view, setView] = useState<AppViewType>(AppView.HOME);
   const [query, setQuery] = useState('');
 
-  // Handle routing for / and /search
   useEffect(() => {
     const handleLocationChange = () => {
-      const path = window.location.pathname;
-      const params = new URLSearchParams(window.location.search);
-      const q = params.get('q');
+      try {
+        const path = window.location.pathname;
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('q');
 
-      if (path.startsWith('/search') && q) {
-        setQuery(q);
-        setView(AppView.SEARCH);
-      } else {
+        if (path.startsWith('/search') && q) {
+          setQuery(q);
+          setView(AppView.SEARCH);
+        } else {
+          setView(AppView.HOME);
+          setQuery('');
+        }
+      } catch (e) {
+        console.error("Navigation error:", e);
         setView(AppView.HOME);
-        setQuery('');
       }
     };
 
@@ -48,25 +51,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#191919] text-white flex flex-col selection:bg-orange-500 selection:text-white">
-      {/* Main Content Area */}
+    <div className="min-h-screen bg-[#191919] text-white flex flex-col selection:bg-orange-500 selection:text-white transition-colors duration-300">
       <div className="flex-1 flex flex-col relative bg-[#191919]">
         {view === AppView.HOME ? (
-          <div className="min-h-full flex flex-col items-center bg-wave-pattern">
-            {/* Top Navigation for Home Page */}
-            <header className="w-full flex justify-end p-4 z-10">
-              <div className="flex items-center gap-3">
+          <div className="min-h-full flex flex-col items-center bg-wave-pattern animate-in fade-in duration-500">
+            <header className="w-full flex justify-end p-6 z-10">
+              <div className="flex items-center gap-4">
                 <button className="p-2 text-neutral-400 hover:text-white transition-colors">
-                  <GearIcon className="w-5 h-5" />
+                  <GearIcon className="w-6 h-6" />
                 </button>
-                <div className="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-xs font-bold text-neutral-400 border border-neutral-700">
+                <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-sm font-bold text-neutral-300 border border-neutral-700 hover:border-neutral-500 cursor-pointer transition-colors">
                   B
                 </div>
               </div>
             </header>
 
-            <main className="flex-1 flex flex-col items-center justify-center px-6 w-full max-w-4xl -mt-12">
-              <div className="mb-12 transition-transform hover:scale-105 duration-300 cursor-pointer" onClick={navigateToHome}>
+            <main className="flex-1 flex flex-col items-center justify-center px-6 w-full max-w-4xl -mt-16">
+              <div className="mb-14 transition-transform hover:scale-105 duration-300 cursor-pointer active:scale-95" onClick={navigateToHome}>
                 <BraveLogo />
               </div>
               <SearchBar onSearch={navigateToSearch} />
@@ -78,30 +79,32 @@ const App: React.FC = () => {
             <Footer />
           </div>
         ) : (
-          <div className="flex flex-col min-h-full">
-            {/* Results Page Header - Sticky */}
-            <header className="sticky top-0 z-20 bg-[#191919]/90 backdrop-blur-md border-b border-neutral-800 px-6 py-4 flex flex-col md:flex-row items-center gap-4 md:gap-8">
-              <div className="cursor-pointer shrink-0" onClick={navigateToHome}>
+          <div className="flex flex-col min-h-full animate-in slide-in-from-top-4 duration-300">
+            {/* Sticky Search Header */}
+            <header className="sticky top-0 z-20 bg-[#191919]/90 backdrop-blur-xl border-b border-neutral-800 px-4 md:px-8 py-4 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+              <div className="cursor-pointer shrink-0 hover:opacity-80 transition-opacity" onClick={navigateToHome}>
                 <BraveLogo className="scale-75 origin-left" />
               </div>
               <div className="flex-1 w-full max-w-3xl">
                 <SearchBar onSearch={navigateToSearch} initialValue={query} autoFocus={false} />
               </div>
-              <div className="hidden lg:flex items-center gap-4 text-neutral-400">
-                <button className="text-sm font-medium hover:text-white transition-colors">Sign in</button>
-                <GearIcon className="w-5 h-5 cursor-pointer hover:text-white transition-colors" />
+              <div className="hidden lg:flex items-center gap-5 text-neutral-400">
+                <button className="text-sm font-semibold hover:text-white transition-colors">Sign in</button>
+                <GearIcon className="w-6 h-6 cursor-pointer hover:text-white transition-colors" />
               </div>
             </header>
 
-            {/* Results Content */}
-            <div className="flex-1 flex flex-col lg:flex-row max-w-[1400px] mx-auto w-full px-4 md:px-8 py-6 gap-8">
-              {/* Vertical Navigation / Filters */}
-              <aside className="hidden md:flex w-48 shrink-0 flex-col gap-1">
+            {/* Results Body */}
+            <div className="flex-1 flex flex-col lg:flex-row max-w-[1600px] mx-auto w-full px-4 md:px-8 py-6 gap-8">
+              {/* Navigation Sidebar */}
+              <aside className="hidden md:flex w-44 shrink-0 flex-col gap-1">
                 {['All', 'Images', 'News', 'Videos', 'Maps'].map((item) => (
                   <button 
                     key={item} 
-                    className={`text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                      item === 'All' ? 'bg-orange-500/10 text-orange-500' : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
+                    className={`text-left px-4 py-3 rounded-2xl text-sm font-bold transition-all ${
+                      item === 'All' 
+                        ? 'bg-orange-500/10 text-orange-500' 
+                        : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
                     }`}
                   >
                     {item}
@@ -109,38 +112,48 @@ const App: React.FC = () => {
                 ))}
               </aside>
 
-              {/* Main Search Results Display */}
+              {/* Main Content */}
               <main className="flex-1 min-w-0">
-                <div className="mb-6 flex items-center justify-between">
-                  <p className="text-xs text-neutral-500 uppercase tracking-widest font-bold">
-                    Search Results for <span className="text-neutral-300">"{query}"</span>
+                <div className="mb-6 flex items-center justify-between px-2">
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-[0.2em] font-black">
+                    Results for <span className="text-orange-500">"{query}"</span>
                   </p>
-                  <span className="text-[10px] text-neutral-600 font-mono">Chromium Search v1.0</span>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                    <span className="text-[10px] text-neutral-500 font-bold">CHROMIUM ENGINE v1.2</span>
+                  </div>
                 </div>
                 
-                {/* Search Engine Result Integration */}
-                <div className="w-full rounded-2xl border border-neutral-800 overflow-hidden bg-white shadow-2xl h-[calc(100vh-200px)] min-h-[600px]">
+                {/* Embedded Search Results */}
+                <div className="w-full rounded-3xl border border-neutral-800 overflow-hidden bg-white shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)] h-[calc(100vh-180px)] min-h-[500px]">
                   <iframe 
                     src={`https://www.bing.com/search?q=${encodeURIComponent(query)}&PC=U316&FORM=CHROMN&setlang=en-US`} 
                     className="w-full h-full border-none"
-                    title="Search Results Content"
+                    title="Search Results"
                     loading="lazy"
                   />
                 </div>
                 
-                <div className="mt-8 text-center py-8 text-neutral-600 border-t border-neutral-800/50">
-                  <p className="text-xs">Securely searching the web via Chromium Engine integration.</p>
+                <div className="mt-8 text-center py-10 text-neutral-600 border-t border-neutral-800/30">
+                  <p className="text-xs font-medium">Safe browsing powered by Chromium Standards.</p>
                 </div>
               </main>
 
-              {/* Knowledge Graph / Sidebar Space */}
+              {/* Info Sidebar */}
               <aside className="hidden xl:block w-80 shrink-0">
-                <div className="p-6 bg-neutral-900/50 border border-neutral-800 rounded-2xl">
-                  <h4 className="text-sm font-bold text-neutral-300 mb-4">About this search</h4>
-                  <p className="text-xs text-neutral-500 leading-relaxed">
-                    You are using the Chromium-based search interface on strom-nine.vercel.app. 
-                    This view provides high-performance access to global web information with enhanced privacy.
+                <div className="p-8 bg-neutral-900/40 border border-neutral-800/50 rounded-[2.5rem] backdrop-blur-sm">
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-500 mb-6">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
+                  </div>
+                  <h4 className="text-lg font-black text-white mb-4 tracking-tight">Private & Fast</h4>
+                  <p className="text-sm text-neutral-500 leading-relaxed font-medium">
+                    This search interface is optimized for privacy. 
+                    We leverage Chromium standards to deliver high-relevance 
+                    results without tracking your personal browsing habits.
                   </p>
+                  <button className="mt-8 w-full py-4 bg-neutral-800 hover:bg-neutral-700 text-white rounded-2xl text-xs font-bold transition-all border border-neutral-700">
+                    Learn about Chromium Search
+                  </button>
                 </div>
               </aside>
             </div>

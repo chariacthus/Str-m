@@ -1,21 +1,13 @@
-
 import React from 'react';
 
-export const LionIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-  </svg>
-);
-
 export const BraveLogo = ({ className }: { className?: string }) => (
-  <div className={`flex items-center gap-2 ${className}`}>
-    <div className="w-12 h-12 brave-gradient rounded-xl flex items-center justify-center text-white">
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-11v2h2v-2h-2zm0 4v6h2v-6h-2z" />
-        <path d="M12 5.5c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5 6.5-2.91 6.5-6.5-2.91-6.5-6.5-6.5zm0 11c-2.48 0-4.5-2.02-4.5-4.5s2.02-4.5 4.5-4.5 4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z" />
+  <div className={`flex items-center gap-3 ${className}`}>
+    <div className="w-14 h-14 brave-gradient rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-900/20">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
+        <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
       </svg>
     </div>
-    <span className="text-3xl font-bold tracking-tight">brave</span>
+    <span className="text-3xl font-bold tracking-tighter text-white">brave</span>
   </div>
 );
 
@@ -32,7 +24,7 @@ export const PlusIcon = ({ className }: { className?: string }) => (
 );
 
 export const SearchIcon = ({ className }: { className?: string }) => (
-  <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
   </svg>
 );

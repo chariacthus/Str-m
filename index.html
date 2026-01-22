@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Brave Search</title>
+    <title>Chromium Browser</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +12,10 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #191919;
+        background-color: #0e0e0e;
         color: #ffffff;
         margin: 0;
-        overflow-x: hidden;
+        overflow: hidden;
       }
       .bg-wave-pattern {
         background-image: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%), 
@@ -26,9 +26,9 @@
         background: linear-gradient(135deg, #ff4b1f 0%, #ff9068 100%);
       }
       .search-container-shadow {
-        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
       }
-      /* Custom scrollbar */
+      /* Custom scrollbar for inner content */
       ::-webkit-scrollbar {
         width: 8px;
       }
@@ -41,6 +41,10 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #444;
+      }
+      /* Ensure iframes fill properly */
+      iframe {
+        color-scheme: light;
       }
     </style>
     <script type="importmap">

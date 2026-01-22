@@ -5,6 +5,7 @@ export interface TopSite {
   icon?: string;
 }
 
-export enum AppState {
-  HOME = 'HOME'
+export enum AppView {
+  HOME = 'HOME',
+  SEARCH = 'SEARCH'
 }
